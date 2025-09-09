@@ -1,0 +1,14 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+  char *buffer = NULL;
+  size_t n = 0;
+
+  printf("Please enter some text: ");
+
+  ssize_t *line = getline(&buffer, &n, stdin);
+
+
+
+}

@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+  char *buffer = NULL;
+  size_t n = 0;
+
+  printf("Please enter some text: ");
+
+  ssize_t *line = getline(&buffer, &n, stdin);
+
+  char *token = NULL;
+  char *delim = NULL;
+  token = strtok_r(token, delim, buffer);
+
+  printf("%s\n", token);
+
+
+  free(buffer);
+
+}
