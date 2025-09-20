@@ -1,0 +1,18 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main() {
+  printf("Enter programs to run.\n");
+  char *input = NULL;
+  size_t len = 0;
+  getline(&input, &len, stdin);
+
+  printf("%s", input);
+
+  *(input + (len - 1)) = '\0';
+  execl(input, input, (char *)NULL);
+  printf("Executed command\n");
+  free(input);
+}

@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+int main() {
+  while (true) {
+  printf("Enter programs to run.\n");
+  char *input = NULL;
+  size_t len = 0;
+  getline(&input, &len, stdin);
+  char *saveptr = NULL;
+  char *token = NULL;
+
+  token = strtok_r(input, "\n", &saveptr);
+
+  int wstatus = 0;
+  pid_t id = fork();
+  if (id == 0) {
+    execl(token, token, (char *)NULL);
+  } else {
+    waitpid(id, &wstatus, 0);
+  }
+  } 
+  free(input);
+}

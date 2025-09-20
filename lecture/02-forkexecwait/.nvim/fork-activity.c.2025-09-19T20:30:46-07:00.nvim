@@ -1,0 +1,11 @@
+#include <unistd.h>
+#include <stdio.h>
+#include <sys/types.h>
+
+int main() {
+  fork();
+  for (int i = 0; i < 10; ++i) {
+    sleep(5);
+    printf("Sleeping\n"); 
+  }
+}

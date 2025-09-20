@@ -1,0 +1,14 @@
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+  pid_t pc = fork();
+
+  if (pc == 0) {
+    execlp("/ls", "/ls", "-a", "-l", "'-h");
+  } else {
+    execlp("/ls", "/ls", "-a");
+  }
+
+  printf("%d\n", getpid());
+}

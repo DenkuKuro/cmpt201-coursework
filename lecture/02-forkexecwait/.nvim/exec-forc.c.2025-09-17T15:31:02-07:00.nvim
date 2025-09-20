@@ -1,0 +1,16 @@
+#include <stdio.h>
+#include <unistd.h>
+
+
+int main() {
+  pid_t pc = fork();
+  
+  if (pc == 0) {
+    execpl("/ls", "/ls", "-a", "-l", "'-h");  
+  } else {
+    execpl("/ls", "/ls", "-a");
+  }
+  
+  printf("%d\n", getpid());
+
+}

@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main() {
+  printf("Enter programs to run.\n");
+  char *input = NULL;
+  size_t len = 0;
+  getline(&input, &len, stdin);
+  char *saveptr = NULL;
+  char *token = NULL;
+
+  token = strtok_r(input, "\n", &saveptr);
+  
+  int wstatus = 0;
+  pid_t id = fork();
+  execl(token, token, (char *)NULL);
+  printf("Executed command\n");
+  free(input);
+}
