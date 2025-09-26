@@ -1,0 +1,39 @@
+#define _POSIX_C_SOURCE 200809
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char *getstr_line() {
+  char *buffer = NULL;
+  size_t n = 0;
+  getline(&buffer, &n, stdin);
+
+  return buffer;
+}
+
+void manage_history(char *lines[], int n, char *line) { lines[n] = line; }
+
+int main(void) {
+  char *history[5] = {0};
+  int n = 0;
+  char *line = NULL;
+  while (true) {
+    line = getstr_line();
+    manage_history(history, n, line);
+    ++n;
+    int result = strcmp("print\n", line);
+    if (result == 0 || n == 5) {
+      for (int i = 0; i < n; ++i) {
+        printf("line %d: %s", (i + 1), history[i]);
+      }
+      // free memory allocated for the strings
+      for (int j = 0; j < n; ++j) {
+        free(history[j]);
+        history[j] = NULL;
+      }
+      // reset history length
+      n = 0;
+    }
+  }
+}
