@@ -17,12 +17,12 @@ char *getstr_line() {
 
 void manage_history(char *lines[], int *start, int *end, char *line) {
   if ((*start % 5) == (*end % 5)) {
-    if (lines[*end % 5] != NULL) {
-      free(lines[(*end % 5)]);
+    if (lines[*end] != NULL) {
+      free(lines[*end]);
       (*start)++;
     }
   }
-  lines[*end % 5] = line;
+  lines[*end] = line;
 }
 
 int main(void) {
@@ -42,6 +42,15 @@ int main(void) {
           printf("line %d: %s", ((i + 1) % 5), history[i % 5]);
         }
       }
+      printf("start value: %d\n", start);
+      // free memory allocated for the strings
+      //for (int j = 0; j < 5; ++j) {
+      //  if (history[j] != NULL) {
+      //    free(history[j]);
+      //    history[j] = NULL;
+      // }
+      //}
+      // reset history length
     }
   }
 }

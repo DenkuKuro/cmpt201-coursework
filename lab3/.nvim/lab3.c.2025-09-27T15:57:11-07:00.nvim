@@ -42,6 +42,14 @@ int main(void) {
           printf("line %d: %s", ((i + 1) % 5), history[i % 5]);
         }
       }
+      // free memory allocated for the strings
+      // for (int j = 0; j < 5; ++j) {
+      //  if (history[j] != NULL) {
+      //    free(history[j]);
+      //    history[j] = NULL;
+      // }
+      //}
+      // reset history length
     }
   }
 }
