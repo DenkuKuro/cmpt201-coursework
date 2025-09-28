@@ -18,8 +18,7 @@ char *getstr_line() {
 bool isBlankLine(char *line) {
   int c = 0;
   while (line[c] != '\n') {
-    if (line[c] != ' ')
-      return false;
+    if (line[c] != ' ') return false;
     ++c;
   }
   return true;
@@ -48,6 +47,8 @@ void reset_history(char *lines[], int *start, int *end) {
   *start = 0;
   *end = 0;
 }
+
+
 
 int main(void) {
   char *history[5] = {0};
