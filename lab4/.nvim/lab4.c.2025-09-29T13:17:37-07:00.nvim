@@ -1,0 +1,14 @@
+#define _ISOC99_SOURCE
+
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+
+#define HEAP_SIZE 256
+struct header { unit64_t size;
+  struct header *next;
+};
+
+int main(void) { sbrk(); }

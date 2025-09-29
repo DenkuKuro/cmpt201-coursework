@@ -1,0 +1,73 @@
+#define _POSIX_C_SOURCE 200809
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char *getstr_line() {
+  char *buffer = NULL;
+  size_t n = 0;
+  if (getline(&buffer, &n, stdin) == -1) {
+    perror("getline failed");
+    return NULL;
+  }
+
+  return buffer;
+}
+
+bool isBlankLine(char *line) {
+  int c = 0;
+  while (line[c] != '\n') {
+    if (line[c] != ' ')
+      return false;
+    ++c;
+  }
+  return true;
+}
+
+void manage_history(char *lines[], int *start, int *end, char *line) {
+  if ((*start % 5) == (*end % 5)) {
+    if (lines[*end % 5] != NULL) {
+      free(lines[(*end % 5)]);
+      (*start)++;
+    }
+  }
+  if (!isBlankLine(line)) {
+    lines[*end % 5] = line;
+    (*end)++;
+  }
+}
+
+void reset_history(char *lines[], int *start, int *end) {
+  for (int i = 0; i < 5; ++i) {
+    if (lines[i] != NULL) {
+      free(lines[i]);
+      lines[i] = NULL;
+    }
+  }
+  *start = 0;
+  *end = 0;
+}
+
+int main(void) {
+  char *history[5] = {0};
+  int start = 0;
+  int end = 0;
+  char *line = NULL;
+  while (true) {
+    printf("Enter input: ");
+    line = getstr_line();
+    manage_history(history, &start, &end, line);
+    int isPrint = strcmp("print\n", line);
+    int isClear = strcmp("clear\n", line);
+    if (isPrint == 0) {
+      for (int i = start; i < (start + 5); ++i) {
+        if (history[i % 5] != NULL) {
+          printf("line %d: %s", ((i + 1) % 5), history[i % 5]);
+        }
+      }
+    } else if (isClear == 0) {
+      reset_history(history, &start, &end);
+    }
+  }
+}

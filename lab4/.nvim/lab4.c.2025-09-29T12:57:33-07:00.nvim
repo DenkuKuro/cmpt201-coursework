@@ -1,0 +1,16 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+#define new_heap_size 256
+
+struct header {
+  unit64_t size;
+  struct header *next;
+};
+
+int main(void) {
+  sbrk(new_heap_size);
+   
+}

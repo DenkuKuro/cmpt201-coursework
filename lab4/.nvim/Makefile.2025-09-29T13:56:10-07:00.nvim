@@ -1,0 +1,2 @@
+lab4: lab4.c
+	clang -fsanitize=address -std=99 lab4.c -o lab4
