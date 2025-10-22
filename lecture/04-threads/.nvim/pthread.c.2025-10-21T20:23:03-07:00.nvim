@@ -1,0 +1,25 @@
+#define _GNU_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdint.h>
+
+void *thread_func(void *arg) {
+  printf("arg: %s\n", (char *)arg);
+  printf("id: %d\n", gettid());
+
+  return (void *)strlen(arg);
+}
+
+int main(void) {
+
+  pthread_t thread;
+  char *arg = "My very first thread!";
+  pthread_create(&thread, NULL, thread_func, arg); 
+  void *ret_val = 0;
+  pthread_join(thread, &ret_val);
+
+  printf("%ul\n", (uint64_t)ret_val);
+}
