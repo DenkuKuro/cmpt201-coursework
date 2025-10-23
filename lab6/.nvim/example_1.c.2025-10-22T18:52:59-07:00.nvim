@@ -54,8 +54,7 @@ void insert_sorted(uint64_t data) {
       prev = curr;
       curr = curr->next;
     }
-    if (!inserted)
-      prev->next = new_node;
+    prev->next = new_node;
   }
 }
 
