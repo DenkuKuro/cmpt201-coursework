@@ -1,6 +1,5 @@
 // server
 #include <errno.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/socket.h>
@@ -36,28 +35,26 @@ int main() {
     perror("listen failed");
     exit(EXIT_FAILURE);
   }
-  while (true) {
-    // accept
-    int connected_fd = accept(socket_fd, NULL, NULL);
-    if (connected_fd == -1) {
-      perror("accept");
-      exit(EXIT_FAILURE);
-    }
-    // read
-    const int SIZE = 1024;
-    char buff[SIZE];
-    int bytes_read;
-    while ((bytes_read = read(connected_fd, buff, SIZE)) > 0) {
-      //  write message to screen
-      write(STDOUT_FILENO, buff, bytes_read);
-    }
-    if (bytes_read == -1) {
-      perror("read");
-      exit(EXIT_FAILURE);
-    }
-    close(connected_fd);
+  // accept
+  int connected_fd = accept(socket_fd, NULL, NULL);
+  if (connected_fd == -1) {
+    perror("accept");
+    exit(EXIT_FAILURE);
+  }
+  // read
+  const int SIZE = 1024;
+  char buff[SIZE];
+  int bytes_read;
+  while (bytes_read = read(connected_fd, buff, SIZE) > 0) {
+  if (bytes_read == -1) {
+    perror("read");
+    exit(EXIT_FAILURE);
+  }
+  // write message to screen
+  write(STDOUT_FILENO, buff, bytes_read);
   }
   // close
+  close(connected_fd);
   close(socket_fd);
   return 0;
 }
