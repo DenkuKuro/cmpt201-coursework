@@ -1,0 +1,19 @@
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/sysmacros.h>
+#include <time.h>
+
+int main(int argc, char *argv[]) {
+  struct stat st;
+  char *path = argv[1];
+
+  stat(path, &st);
+  if (S_ISREG(st.st_mode))
+    printf("Regular file\n");
+  else if (S_ISDIR(st.st_mode))
+    printf("Directory\n");
+  else
+    printf("Other\n");
+}

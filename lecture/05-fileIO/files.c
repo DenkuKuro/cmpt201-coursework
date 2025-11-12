@@ -1,0 +1,33 @@
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+int main(void) {
+  int fd = open("./tmp", O_RDWR | O_CREAT); // S_IRUSR | S_IWUSR);
+  if (fd == -1) {
+    perror("open failed");
+    exit(EXIT_FAILURE);
+  }
+  const char *buf = "Hello there, this is my first file i/o\n";
+  ssize_t bytes_write = write(fd, buf, strlen(buf));
+  if (bytes_write == -1) {
+    perror("write failed");
+    exit(EXIT_FAILURE);
+  }
+  off_t offset = lseek(fd, -(bytes_write / 2), SEEK_END);
+  if (offset == -1) {
+    perror("lseek failed");
+    exit(EXIT_FAILURE);
+  }
+  char buff[12];
+  read(fd, buff, 10);
+
+  write(STDOUT_FILENO, buff, 10);
+
+  close(fd);
+
+  printf("\n");
+}

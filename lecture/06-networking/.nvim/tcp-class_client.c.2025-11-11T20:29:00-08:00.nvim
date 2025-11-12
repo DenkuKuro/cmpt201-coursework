@@ -1,0 +1,7 @@
+// client
+#include <stdio.h>
+#include <sys/socket.h>
+int main() {
+  printf("CLIENT:\n");
+  return 0;
+}
