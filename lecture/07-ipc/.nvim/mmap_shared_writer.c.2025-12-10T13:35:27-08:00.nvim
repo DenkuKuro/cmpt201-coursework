@@ -1,8 +1,10 @@
+/* pshm_ucase_send.c
+
+              Licensed under GNU General Public License v2 or later.
+           */
 #define _POSIX_C_SOURCE 200112L
 #include "pshm_ucase.h"
-#include <stdbool.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/mman.h>
@@ -13,6 +15,7 @@
 int main(int argc, char *argv[]) {
   int fd;
   char *shmpath;
+  struct shmbuf *shmp;
 
   if (argc != 2) {
     fprintf(stderr, "Usage: %s /shm-path string\n", argv[0]);
@@ -23,7 +26,7 @@ int main(int argc, char *argv[]) {
   /* Open the existing shared memory object and map it
      into the caller's address space. */
 
-  fd = shm_open(shmpath, O_RDWR, S_IRUSR | S_IWUSR);
+  fd = shm_open(shmpath, O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
   if (fd == -1)
     errExit("shm_open");
 
@@ -32,10 +35,9 @@ int main(int argc, char *argv[]) {
 
   uint8_t *ptr =
       mmap(NULL, sizeof(*ptr), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-  while (true) {
-    printf("%d\n", *ptr);
-    sleep(1);
-  }
+  *ptr = 100;
+
+  write(STDOUT_FILENO, "\n", 1);
 
   exit(EXIT_SUCCESS);
 }
